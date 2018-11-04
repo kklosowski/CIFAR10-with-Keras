@@ -73,74 +73,71 @@ def main():
 
     x = keras.Input((32, 32, 3))
     # conv_1
-    conv1 = keras.layers.Conv2D(filters=32, kernel_size=7, strides=1, padding="VALID", bias_initializer="random_normal", activation=keras.activations.relu)(x)
-    conv1 = keras.layers.BatchNormalization()(conv1)
+    conv1 = keras.layers.Conv2D(filters=32, kernel_size=7, strides=1, padding="SAME", activation=keras.activations.relu)(x)
     # conv_2_x
     max_pool = keras.layers.MaxPool2D(padding="SAME")(conv1)
-    conv2_1 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(max_pool)
+    conv2_1 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(max_pool)
     conv2_2 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME")(conv2_1)
     skip2_1 = keras.layers.add([max_pool, conv2_2])
 
-    conv2_3 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(conv2_2)
+    conv2_3 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv2_2)
     conv2_4 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding="SAME")(conv2_3)
 
     resize2 = keras.layers.Conv2D(filters=32, kernel_size=1, strides=2, padding="SAME")(skip2_1)
     skip2_2 = keras.layers.add([resize2, conv2_4])
 
     # conv_3_x
-    norm3 = keras.layers.BatchNormalization()(skip2_2)
-    conv3_1 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(norm3)
+    conv3_1 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip2_2)
     conv3_2 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME")(conv3_1)
 
     resize3_1 = keras.layers.Conv2D(filters=64, kernel_size=1, strides=1, padding="SAME")(skip2_2)
     skip3_1 = keras.layers.add([resize3_1, conv3_2])
 
-    conv3_3 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(skip3_1)
+    conv3_3 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip3_1)
     conv3_4 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding="SAME")(conv3_3)
 
     resize3_2 = keras.layers.Conv2D(filters=64, kernel_size=1, strides=2, padding="SAME")(skip3_1)
     skip3_2 = keras.layers.add([resize3_2, conv3_4])
 
     # conv_4_x
-    norm4 = keras.layers.BatchNormalization()(skip3_2)
-    conv4_1 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(norm4)
+    conv4_1 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip3_2)
     conv4_2 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME")(conv4_1)
 
     resize4_1 = keras.layers.Conv2D(filters=128, kernel_size=1, strides=1, padding="SAME")(skip3_2)
     skip4_1 = keras.layers.add([resize4_1, conv4_2])
 
-    conv4_3 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(skip4_1)
+    conv4_3 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip4_1)
     conv4_4 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=2, padding="SAME")(conv4_3)
 
     resize4_2 = keras.layers.Conv2D(filters=128, kernel_size=1, strides=2, padding="SAME")(skip4_1)
     skip4_2 = keras.layers.add([resize4_2, conv4_4])
 
-    # conv_5_x
-    conv5_1 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(skip4_2)
-    conv5_2 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=1, padding="SAME")(conv5_1)
+    # # conv_5_x
+    # conv5_1 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(skip4_2)
+    # conv5_2 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=1, padding="SAME")(conv5_1)
+    #
+    # resize5_1 = keras.layers.Conv2D(filters=256, kernel_size=1, strides=1, padding="SAME")(skip4_2)
+    # skip5_1 = keras.layers.add([resize5_1, conv5_2])
+    #
+    # conv5_3 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(skip5_1)
+    # conv5_4 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=2, padding="SAME")(conv5_3)
+    #
+    # resize5_2 = keras.layers.Conv2D(filters=256, kernel_size=1, strides=2, padding="SAME")(skip5_1)
+    # skip5_2 = keras.layers.add([resize5_2, conv5_4])
 
-    resize5_1 = keras.layers.Conv2D(filters=256, kernel_size=1, strides=1, padding="SAME")(skip4_2)
-    skip5_1 = keras.layers.add([resize5_1, conv5_2])
-
-    conv5_3 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu)(skip5_1)
-    conv5_4 = keras.layers.Conv2D(filters=256, kernel_size=3, strides=2, padding="SAME")(conv5_3)
-
-    resize5_2 = keras.layers.Conv2D(filters=256, kernel_size=1, strides=2, padding="SAME")(skip5_1)
-    skip5_2 = keras.layers.add([resize5_2, conv5_4])
-
-    # avg_pool = keras.layers.AvgPool2D()(skip5_2)
-    flat = keras.layers.Flatten()(skip3_2)
-    dense1000 = keras.layers.Dense(1000)(flat)
-    dense10 = keras.layers.Dense(10)(dense1000)
+    avg_pool = keras.layers.AvgPool2D(strides=2)(skip4_2)
+    flat = keras.layers.Flatten()(avg_pool)
+    dense256 = keras.layers.Dense(256)(flat)
+    dense10 = keras.layers.Dense(10)(dense256)
     softmax = keras.layers.Softmax()(dense10)
 
     model = keras.Model(inputs=x, outputs=softmax)
 
-    if Path("models/cifar10.h5").is_file():
-        print("loading")
-        model.load_weights("models/cifar10.h5")
+    # if Path("models/cifar10.h5").is_file():
+    #     print("loading")
+    #     model.load_weights("models/cifar10.h5")
 
-    model.compile(optimizer=keras.optimizers.Adam(lr=0.0001),
+    model.compile(optimizer=keras.optimizers.Adam(lr=0.001),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
