@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from scipy import  ndimage
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -8,30 +9,23 @@ import cv2
 
 
 def augment_dataset(train_images, train_labels):
-    train_images = np.concatenate((train_images, [np.flip(x, axis=1) for x in train_images]))
-    train_images = np.concatenate((train_images, np.random.normal(train_images, 0.03)))
+    im_flip = np.concatenate((train_images, [np.flip(x, axis=1) for x in train_images]))
+    im_flip_norm = np.concatenate((im_flip, np.random.normal(im_flip, 0.03)))
+    im_flip_norm_15 = np.concatenate((im_flip_norm, [ndimage.interpolation.rotate(x, 15, reshape=False, mode="nearest") for x in im_flip_norm]))
+    im_flip_norm_15_345 = np.concatenate((im_flip_norm_15, [ndimage.interpolation.rotate(x, 345, reshape=False, mode="nearest") for x in im_flip_norm]))
 
-    train_labels = np.append(train_labels, train_labels)
-    train_labels = np.append(train_labels, train_labels)
+    train_labels_20k = np.append(train_labels, train_labels)
+    train_labels_40k = np.append(train_labels_20k, train_labels_20k)
+    train_labels_80k = np.append(train_labels_40k, train_labels_40k)
+    train_labels_120k = np.append(train_labels_80k, train_labels_40k)
 
-    # print(train_images.shape, train_labels.shape)
-    # plt.imshow(train_images[11])
-    # plt.show()
-    # plt.imshow(train_images[10011])
-    # plt.show()
-    # plt.imshow(train_images[20011])
-    # plt.show()
-    # plt.imshow(train_images[30011])
-    # plt.show()
-
-    return train_images, train_labels
+    return im_flip_norm_15_345, train_labels_120k
 
 
 def main():
     num_classes = 10
 
     (train_images, train_labels) = np.load("data/trnImage.npy"), np.load("data/trnLabel.npy")
-    # (train_images, train_labels) = keras.datasets.cifar10.load_data()
     (test_images, test_labels) = np.load("data/tstImage.npy"), np.load("data/tstLabel.npy")
 
     train_images = np.moveaxis(train_images, -1, 0)
@@ -45,12 +39,14 @@ def main():
 
     train_images, train_labels = augment_dataset(train_images, train_labels)
 
+
+
     print(train_images.shape, train_labels.shape)
 
     train_labels = keras.utils.to_categorical(train_labels, num_classes)
     test_labels = keras.utils.to_categorical(test_labels, num_classes)
 
-    epochs = 10
+    epochs = 55
 
     # model = keras.Sequential([
     #     keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, input_shape=(32, 32, 3)),
@@ -137,7 +133,7 @@ def main():
         print("loading")
         model.load_weights("models/cifar10.h5")
 
-    model.compile(optimizer=keras.optimizers.Adam(lr=0.0001),
+    model.compile(optimizer=keras.optimizers.Adam(lr=0.001),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
