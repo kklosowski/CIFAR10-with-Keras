@@ -50,7 +50,7 @@ def main():
     train_labels = keras.utils.to_categorical(train_labels, num_classes)
     test_labels = keras.utils.to_categorical(test_labels, num_classes)
 
-    epochs = 25
+    epochs = 10
 
     # model = keras.Sequential([
     #     keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, input_shape=(32, 32, 3)),
@@ -73,41 +73,41 @@ def main():
 
     x = keras.Input((32, 32, 3))
     # conv_1
-    conv1 = keras.layers.Conv2D(filters=32, kernel_size=7, strides=1, padding="SAME", activation=keras.activations.relu)(x)
+    conv1 = keras.layers.Conv2D(filters=32, kernel_size=7, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(x)
     # conv_2_x
     max_pool = keras.layers.MaxPool2D(padding="SAME")(conv1)
     conv2_1 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(max_pool)
-    conv2_2 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME")(conv2_1)
+    conv2_2 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv2_1)
     skip2_1 = keras.layers.add([max_pool, conv2_2])
 
     conv2_3 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv2_2)
-    conv2_4 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding="SAME")(conv2_3)
+    conv2_4 = keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv2_3)
 
     resize2 = keras.layers.Conv2D(filters=32, kernel_size=1, strides=2, padding="SAME")(skip2_1)
     skip2_2 = keras.layers.add([resize2, conv2_4])
 
     # conv_3_x
     conv3_1 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip2_2)
-    conv3_2 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME")(conv3_1)
+    conv3_2 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv3_1)
 
     resize3_1 = keras.layers.Conv2D(filters=64, kernel_size=1, strides=1, padding="SAME")(skip2_2)
     skip3_1 = keras.layers.add([resize3_1, conv3_2])
 
     conv3_3 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip3_1)
-    conv3_4 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding="SAME")(conv3_3)
+    conv3_4 = keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv3_3)
 
     resize3_2 = keras.layers.Conv2D(filters=64, kernel_size=1, strides=2, padding="SAME")(skip3_1)
     skip3_2 = keras.layers.add([resize3_2, conv3_4])
 
     # conv_4_x
     conv4_1 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip3_2)
-    conv4_2 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME")(conv4_1)
+    conv4_2 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv4_1)
 
     resize4_1 = keras.layers.Conv2D(filters=128, kernel_size=1, strides=1, padding="SAME")(skip3_2)
     skip4_1 = keras.layers.add([resize4_1, conv4_2])
 
     conv4_3 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=1, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(skip4_1)
-    conv4_4 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=2, padding="SAME")(conv4_3)
+    conv4_4 = keras.layers.Conv2D(filters=128, kernel_size=3, strides=2, padding="SAME", activation=keras.activations.relu, kernel_regularizer=keras.regularizers.l2(0.01))(conv4_3)
 
     resize4_2 = keras.layers.Conv2D(filters=128, kernel_size=1, strides=2, padding="SAME")(skip4_1)
     skip4_2 = keras.layers.add([resize4_2, conv4_4])
@@ -125,7 +125,7 @@ def main():
     # resize5_2 = keras.layers.Conv2D(filters=256, kernel_size=1, strides=2, padding="SAME")(skip5_1)
     # skip5_2 = keras.layers.add([resize5_2, conv5_4])
 
-    avg_pool = keras.layers.AvgPool2D(strides=2)(skip4_2)
+    avg_pool = keras.layers.AvgPool2D(strides=2)(skip3_2)
     flat = keras.layers.Flatten()(avg_pool)
     dense256 = keras.layers.Dense(256)(flat)
     dense10 = keras.layers.Dense(10)(dense256)
@@ -133,11 +133,11 @@ def main():
 
     model = keras.Model(inputs=x, outputs=softmax)
 
-    # if Path("models/cifar10.h5").is_file():
-    #     print("loading")
-    #     model.load_weights("models/cifar10.h5")
+    if Path("models/cifar10.h5").is_file():
+        print("loading")
+        model.load_weights("models/cifar10.h5")
 
-    model.compile(optimizer=keras.optimizers.Adam(lr=0.001),
+    model.compile(optimizer=keras.optimizers.Adam(lr=0.0001),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
