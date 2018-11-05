@@ -9,17 +9,25 @@ import cv2
 
 
 def augment_dataset(train_images, train_labels):
-    im_flip = np.concatenate((train_images, [np.flip(x, axis=1) for x in train_images]))
-    im_flip_norm = np.concatenate((im_flip, np.random.normal(im_flip, 0.03)))
-    im_flip_norm_15 = np.concatenate((im_flip_norm, [ndimage.interpolation.rotate(x, 15, reshape=False, mode="nearest") for x in im_flip_norm]))
-    im_flip_norm_15_345 = np.concatenate((im_flip_norm_15, [ndimage.interpolation.rotate(x, 345, reshape=False, mode="nearest") for x in im_flip_norm]))
+    train_images = np.concatenate((train_images, [np.flip(x, axis=1) for x in train_images]))
+    train_images = np.concatenate((train_images, np.random.normal(train_images, 0.03)))
+    rot15 = [ndimage.interpolation.rotate(x, 15, reshape=False, mode="nearest") for x in train_images]
+    # rot30 = [ndimage.interpolation.rotate(x, 30, reshape=False, mode="nearest") for x in train_images]
+    # rot330 = [ndimage.interpolation.rotate(x, 330, reshape=False, mode="nearest") for x in train_images]
+    rot345 = [ndimage.interpolation.rotate(x, 345, reshape=False, mode="nearest") for x in train_images]
+    train_images = np.concatenate((train_images, rot15))
+    train_images = np.concatenate((train_images, rot30))
+    train_images = np.concatenate((train_images, rot330))
+    train_images = np.concatenate((train_images, rot345))
 
-    train_labels_20k = np.append(train_labels, train_labels)
-    train_labels_40k = np.append(train_labels_20k, train_labels_20k)
-    train_labels_80k = np.append(train_labels_40k, train_labels_40k)
-    train_labels_120k = np.append(train_labels_80k, train_labels_40k)
+    train_labels_2x = np.append(train_labels, train_labels)
+    train_labels_4x = np.append(train_labels_2x, train_labels_2x)
+    train_labels_8x = np.append(train_labels_4x, train_labels_4x)
+    train_labels_12x = np.append(train_labels_8x, train_labels_4x)
+    # train_labels_16x = np.append(train_labels_12x, train_labels_4x)
+    # train_labels_20x = np.append(train_labels_16x, train_labels_4x)
 
-    return im_flip_norm_15_345, train_labels_120k
+    return train_images, train_labels_12x
 
 
 def main():
@@ -129,16 +137,16 @@ def main():
 
     model = keras.Model(inputs=x, outputs=softmax)
 
-    if Path("models/cifar10.h5").is_file():
-        print("loading")
-        model.load_weights("models/cifar10.h5")
+    # if Path("models/cifar10.h5").is_file():
+    #     print("loading")
+    #     model.load_weights("models/cifar10_70percent.h5")
 
     model.compile(optimizer=keras.optimizers.Adam(lr=0.001),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
     history = model.fit(train_images, train_labels, batch_size=1000, epochs=epochs, shuffle=True, validation_data=(test_images, test_labels), verbose=2)
-    model.save("models/cifar10.h5")
+    model.save("models/cifar10_70percent200k.h5")
 
     plt.plot(history.history['val_categorical_accuracy'])
     plt.show()
