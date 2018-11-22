@@ -1,5 +1,0 @@
-Shallower networks seem to be better
-3block architecture reached the highest 70% accuracy
-Augmentation to 120k proved to be the most stable
-Rotation by 30 degrees to both sides didn't improve validation acuraccy
-Network didnt stabilise on 200k dataset

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from keras.datasets import cifar10
 from scipy import ndimage
 from tensorflow import keras
 import numpy as np
@@ -30,9 +31,9 @@ def augment_dataset(train_images, train_labels):
 
 
 def learning_rate_scheduler(epoch):
-    if epoch < 200:
-        return 0.001
-    if 200 <= epoch < 350:
+    if epoch < 150:
+        return 0.0005
+    if 150 <= epoch < 200:
         return 0.0001
     else:
         return 0.00001
@@ -76,10 +77,11 @@ def plot_confusion_matrix(cm, classes,
 def main():
     # Hyper-parameters
     num_classes = 10
-    epochs = 10
+    epochs = 25
+    num_checkpoints = 10
     learning_rate = 0.001
     batch_size = 500
-    model_name = "cifar10_4block_10k.e35-acc0.708"
+    model_name = "cifar_full"
     data_augmentation = False
 
     # Dictionary of common parameters used in convolutional layers
@@ -90,12 +92,11 @@ def main():
     }
 
     # Data Loading
-    (train_images, train_labels) = np.load("data/trnImage.npy"), np.load("data/trnLabel.npy")
-    (test_images, test_labels) = np.load("data/tstImage.npy"), np.load("data/tstLabel.npy")
+    (train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
 
     # Pre-processing step
-    (train_images, train_labels) = np.moveaxis(train_images, -1, 0), np.subtract(train_labels.flatten(), 1)
-    (test_images, test_labels) = np.moveaxis(test_images, -1, 0), np.subtract(test_labels.flatten(), 1)
+    # (train_images, train_labels) = np.moveaxis(train_images, -1, 0), np.subtract(train_labels.flatten(), 1)
+    # (test_images, test_labels) = np.moveaxis(test_images, -1, 0), np.subtract(test_labels.flatten(), 1)
 
     # Dataset augmentation from 10k to 120k images
     if data_augmentation:
@@ -178,7 +179,7 @@ def main():
     resize5_2 = keras.layers.Conv2D(filters=256, kernel_size=1, strides=1, **params_conv2d)(skip5_1)
     skip5_2 = keras.layers.BatchNormalization()(keras.layers.add([resize5_2, conv5_4]))
 
-    avg_pool = keras.layers.AvgPool2D(strides=2)(skip4_2)
+    avg_pool = keras.layers.AvgPool2D(strides=2)(skip5_2)
     flat = keras.layers.Flatten()(avg_pool)
     # dense256 = keras.layers.Dense(512)(flat)
     # dense10 = keras.layers.Dense(10)(dense256)
@@ -196,17 +197,17 @@ def main():
     # Model compilation
     model.compile(optimizer=keras.optimizers.Adam(lr=learning_rate),
                   loss='categorical_crossentropy',
-                  metrics=['categorical_accuracy'])
+                  metrics=['categorical_accuracy', 'top_k_categorical_accuracy'])
 
     # Training callbacks
     callbacks = [keras.callbacks.LearningRateScheduler(learning_rate_scheduler, verbose=0),
-                 # keras.callbacks.ModelCheckpoint('checkpoints/' + model_name + '.e{epoch:02d}-acc{val_categorical_accuracy:.3f}.h5',
-                 #                                 monitor='val_categorical_accuracy',
-                 #                                 verbose=0,
-                 #                                 save_best_only=True,
-                 #                                 save_weights_only=False,
-                 #                                 mode='max',
-                 #                                 period=epochs//20)
+                 keras.callbacks.ModelCheckpoint('checkpoints/' + model_name + '.e{epoch:02d}-acc{val_categorical_accuracy:.3f}.h5',
+                                                 monitor='val_categorical_accuracy',
+                                                 verbose=0,
+                                                 save_best_only=True,
+                                                 save_weights_only=False,
+                                                 mode='max',
+                                                 period=epochs//num_checkpoints)
                  ]
 
     # Training step
@@ -246,13 +247,15 @@ def main():
     plt.legend()
     plt.show()
 
-    predictions = np.argmax(model.predict_on_batch(test_images), 1)
-    conf_matrix = confusion_matrix(np.load("data/tstLabel.npy"), predictions)
-    conf_matrix = np.delete(conf_matrix, 10, 1)
-    conf_matrix = np.delete(conf_matrix, 0, 0)
-
-    plot_confusion_matrix(conf_matrix, ["Plane","Car","Bird","Cat","Deer","Dog","Frog","Horse","Ship","Truck"], cmap=plt.cm.Greys)
-    plt.show()
+    # test_images_1k = np.load("data/tstImage.npy")
+    # test_labels_1k = np.load("data/tstLabel.npy")
+    # predictions = np.argmax(model.predict_on_batch(test_images_1k), 1)
+    # conf_matrix = confusion_matrix(test_labels_1k, predictions)
+    # conf_matrix = np.delete(conf_matrix, 10, 1)
+    # conf_matrix = np.delete(conf_matrix, 0, 0)
+    #
+    # plot_confusion_matrix(conf_matrix, ["Plane","Car","Bird","Cat","Deer","Dog","Frog","Horse","Ship","Truck"], cmap=plt.cm.Greys)
+    # plt.show()
 
 
 if __name__ == '__main__':
