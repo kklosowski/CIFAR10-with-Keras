@@ -9,63 +9,50 @@ from sklearn.metrics import confusion_matrix
 import itertools
 
 
+def augment_dataset(train_images, train_labels, level=12):
+    # Flip
+    if level >= 2:
+        train_images = np.concatenate((train_images, [np.flip(x, axis=1) for x in train_images]))
+        train_labels = np.append(train_labels, train_labels)
 
-def augment_dataset(train_images, train_labels):
-    train_images = np.concatenate((train_images, [np.flip(x, axis=1) for x in train_images]))
-    train_images = np.concatenate((train_images, np.random.normal(train_images, 0.03)))
-    rot15 = [ndimage.interpolation.rotate(x, 15, reshape=False, mode="nearest") for x in train_images]
-    rot345 = [ndimage.interpolation.rotate(x, 345, reshape=False, mode="nearest") for x in train_images]
-    train_images = np.concatenate((train_images, rot15))
-    train_images = np.concatenate((train_images, rot345))
+    # Rotations
+    if level >= 6:
+        rot15 = [ndimage.interpolation.rotate(x, 15, reshape=False, mode="nearest") for x in train_images]
+        rot345 = [ndimage.interpolation.rotate(x, 345, reshape=False, mode="nearest") for x in train_images]
+        train_images = np.concatenate((train_images, rot15))
+        train_images = np.concatenate((train_images, rot345))
+        train_labels = np.append(np.append(train_labels, train_labels), train_labels)
 
-    train_labels_2x = np.append(train_labels, train_labels)
-    train_labels_4x = np.append(train_labels_2x, train_labels_2x)
-    train_labels_8x = np.append(train_labels_4x, train_labels_4x)
-    train_labels_12x = np.append(train_labels_8x, train_labels_4x)
+    # Noise
+    if level == 12:
+        train_images = np.concatenate((train_images, np.random.normal(train_images, 0.03)))
+        train_labels = np.append(train_labels, train_labels)
 
-    for x in range(12):
-        plt.imshow(train_images[x * 10000 + 57])
-        plt.show()
-
-    return train_images, train_labels_12x
+    return train_images, train_labels
 
 
+# Learning rate schedule, change according to training progress
 def learning_rate_scheduler(epoch):
     if epoch < 150:
-        return 0.0005
-    if 150 <= epoch < 200:
+        return 0.001
+    if 150 <= epoch < 250:
         return 0.0001
     else:
         return 0.00001
 
 
 def plot_confusion_matrix(cm, classes,
-                          normalize=False,
                           title='Confusion matrix',
                           cmap=plt.cm.Blues):
-    """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`.
-    """
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
-
-    print(cm)
-
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
     plt.title(title)
     plt.colorbar()
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, classes, rotation=45)
     plt.yticks(tick_marks, classes)
-
-    fmt = '.2f' if normalize else 'd'
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
+        plt.text(j, i, format(cm[i, j], 'd'),
                  horizontalalignment="center",
                  color="white" if cm[i, j] > thresh else "black")
 
@@ -77,12 +64,18 @@ def plot_confusion_matrix(cm, classes,
 def main():
     # Hyper-parameters
     num_classes = 10
-    epochs = 25
-    num_checkpoints = 10
+    epochs = 350
+    num_checkpoints = 35
     learning_rate = 0.001
     batch_size = 500
     model_name = "cifar_full"
+    verbosity = 2
     data_augmentation = False
+    # Levels: 2 Include Flip, 6 Include Rotation, 12 Include Noise
+    augmentation_level = 12
+    training_active = True
+    print_confusion_matrix = True
+    print_training_graphs = True
 
     # Dictionary of common parameters used in convolutional layers
     params_conv2d = {
@@ -94,13 +87,9 @@ def main():
     # Data Loading
     (train_images, train_labels), (test_images, test_labels) = cifar10.load_data()
 
-    # Pre-processing step
-    # (train_images, train_labels) = np.moveaxis(train_images, -1, 0), np.subtract(train_labels.flatten(), 1)
-    # (test_images, test_labels) = np.moveaxis(test_images, -1, 0), np.subtract(test_labels.flatten(), 1)
-
-    # Dataset augmentation from 10k to 120k images
+    # Dataset augmentation
     if data_augmentation:
-        train_images, train_labels = augment_dataset(train_images, train_labels)
+        train_images, train_labels = augment_dataset(train_images, train_labels, augmentation_level)
 
     # Conversion of labels to one-hot arrays
     train_labels = keras.utils.to_categorical(train_labels, num_classes)
@@ -181,8 +170,6 @@ def main():
 
     avg_pool = keras.layers.AvgPool2D(strides=2)(skip5_2)
     flat = keras.layers.Flatten()(avg_pool)
-    # dense256 = keras.layers.Dense(512)(flat)
-    # dense10 = keras.layers.Dense(10)(dense256)
     dense10 = keras.layers.Dense(10)(flat)
     softmax = keras.layers.Softmax()(dense10)
 
@@ -190,8 +177,7 @@ def main():
 
     # Loading model weights if available
     if Path("models/" + model_name + '.h5').is_file():
-        print("loading")
-        # model.load_weights("models/cifar10_4block_10k.e07-acc0.696.h5")
+        print("loading weights")
         model.load_weights("models/" + model_name + '.h5')
 
     # Model compilation
@@ -209,53 +195,46 @@ def main():
                                                  mode='max',
                                                  period=epochs//num_checkpoints)
                  ]
+    if training_active:
+        # Training step
+        history = model.fit(train_images, train_labels,
+                            batch_size=batch_size,
+                            epochs=epochs,
+                            shuffle=True,
+                            validation_data=(test_images, test_labels),
+                            verbose=verbosity,
+                            callbacks=callbacks)
 
-    # Training step
-    history = model.fit(train_images, train_labels,
-                        batch_size=batch_size,
-                        epochs=epochs,
-                        shuffle=True,
-                        validation_data=(test_images, test_labels),
-                        verbose=2,
-                        callbacks=callbacks)
+        model.save("models/" + model_name + '.h5')
+        with open('model_architecture.json', 'w') as f:
+            f.write(model.to_json())
 
-    model.save("models/" + model_name + '.h5')
+        if print_training_graphs:
+            # Accuracy over training time
+            plt.plot(history.history['categorical_accuracy'], label="Training Accuracy")
+            plt.plot(history.history['val_categorical_accuracy'], label="Validation Accuracy")
+            plt.title("Training vs Validation Accuracy")
+            plt.xlabel("Epochs")
+            plt.ylabel("Accuracy")
+            plt.legend()
+            plt.show()
 
-    with open('model_architecture.json', 'w') as f:
-        f.write(model.to_json())
+            # Loss over training time
+            plt.plot(history.history['loss'], label="Training Loss")
+            plt.plot(history.history['val_loss'], label="Validation Loss")
+            plt.title("Training vs Validation Loss")
+            plt.xlabel("Epochs")
+            plt.ylabel("Loss")
+            plt.legend()
+            plt.show()
 
-    # Accuracy over training time
-    plt.plot(history.history['val_categorical_accuracy'])
-    plt.title(model_name)
-    plt.xlabel("Epochs")
-    plt.ylabel("Accuracy")
-    plt.show()
+    if print_confusion_matrix:
+        predictions = np.argmax(model.predict_on_batch(test_images), 1)
+        test_labels = np.argmax(test_labels, 1)
 
-    plt.plot(history.history['categorical_accuracy'], label="Training Accuracy")
-    plt.plot(history.history['val_categorical_accuracy'], label="Validation Accuracy")
-    plt.title("Training vs Validation Accuracy")
-    plt.xlabel("Epochs")
-    plt.ylabel("Accuracy")
-    plt.legend()
-    plt.show()
-
-    plt.plot(history.history['loss'], label="Training Loss")
-    plt.plot(history.history['val_loss'], label="Validation Loss")
-    plt.title("Training vs Validation Loss")
-    plt.xlabel("Epochs")
-    plt.ylabel("Loss")
-    plt.legend()
-    plt.show()
-
-    # test_images_1k = np.load("data/tstImage.npy")
-    # test_labels_1k = np.load("data/tstLabel.npy")
-    # predictions = np.argmax(model.predict_on_batch(test_images_1k), 1)
-    # conf_matrix = confusion_matrix(test_labels_1k, predictions)
-    # conf_matrix = np.delete(conf_matrix, 10, 1)
-    # conf_matrix = np.delete(conf_matrix, 0, 0)
-    #
-    # plot_confusion_matrix(conf_matrix, ["Plane","Car","Bird","Cat","Deer","Dog","Frog","Horse","Ship","Truck"], cmap=plt.cm.Greys)
-    # plt.show()
+        conf_matrix = confusion_matrix(test_labels, predictions)
+        plot_confusion_matrix(conf_matrix, ["Plane", "Car", "Bird", "Cat", "Deer", "Dog", "Frog", "Horse", "Ship", "Truck"], cmap=plt.cm.Greys)
+        plt.show()
 
 
 if __name__ == '__main__':

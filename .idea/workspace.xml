@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d4f31282-0e14-4af4-844b-9732e08828a4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Conv5Layers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CS-115/Boing" beforeDir="false" afterPath="$PROJECT_DIR$/../../CS-115/Boing" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CS-250/Assignment 2/Part 2" beforeDir="false" afterPath="$PROJECT_DIR$/../../CS-250/Assignment 2/Part 2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CS-255/GraphicsPython" beforeDir="false" afterPath="$PROJECT_DIR$/../../CS-255/GraphicsPython" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notes" beforeDir="false" afterPath="$PROJECT_DIR$/Notes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cifar10-60percent.h5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cifar10-62percent-withavgpool.h5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/cifar10.h5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resnet-60percent.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CifarFull.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Conv5Layers.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +17,8 @@
     <SUITE FILE_PATH="coverage/Coursework$CifarFull.coverage" NAME="CifarFull Coverage Results" MODIFIED="1542852156754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Coursework$InceptionTest.coverage" NAME="InceptionTest Coverage Results" MODIFIED="1541388012547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Coursework$KMeans.coverage" NAME="KMeans Coverage Results" MODIFIED="1542838677207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CIFAR10_with_Keras$CifarFull.coverage" NAME="CifarFull Coverage Results" MODIFIED="1542927618862" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CIFAR10_with_Keras$Cifar10Keras.coverage" NAME="Cifar10Keras Coverage Results" MODIFIED="1542928444569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Coursework$Conv5Layers.coverage" NAME="Conv5Layers Coverage Results" MODIFIED="1542830935065" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
@@ -79,19 +72,46 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="-550038240">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="json" value="1" />
+          <entry key="py" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JSON" value="1" />
+          <entry key="Python" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="679" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="679" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1921">
-              <caret line="202" selection-start-line="202" selection-end-line="210" />
+            <state relative-caret-position="534">
+              <caret line="248" column="18" lean-forward="true" selection-start-line="248" selection-start-column="18" selection-end-line="248" selection-end-column="67" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
-                <element signature="e#187#990#0" />
-                <element signature="e#1033#1151#0" />
-                <element signature="e#1476#2427#0" />
                 <marker date="1542843598453" expanded="true" signature="1307:2445" ph="..." />
                 <marker date="1542843598453" expanded="true" signature="8189:8388" ph="..." />
               </folding>
@@ -99,29 +119,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CifarFull.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Cifar10Keras.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1179">
-              <caret line="100" column="50" lean-forward="true" selection-start-line="100" selection-start-column="50" selection-end-line="100" selection-end-column="50" />
-              <folding>
-                <element signature="e#250#1146#0" />
-                <element signature="e#1494#2442#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/cifar10_conv_5layer-52%.h5">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Conv5Layers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="105" column="60" selection-start-line="105" selection-start-column="60" selection-end-line="105" selection-end-column="60" />
+            <state relative-caret-position="497">
+              <caret line="179" column="30" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -130,33 +132,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/images/5block120k.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/images/3block200k.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/images/3block70percent.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Notes">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="25" lean-forward="true" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/engine/training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
+            <state relative-caret-position="31620">
               <caret line="1891" column="6" selection-start-line="1891" selection-start-column="6" selection-end-line="1891" selection-end-column="6" />
             </state>
           </provider>
@@ -165,7 +143,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/engine/network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
+            <state relative-caret-position="22508">
               <caret line="1357" selection-start-line="1357" selection-end-line="1357" />
             </state>
           </provider>
@@ -213,6 +191,7 @@
         <option value="$PROJECT_DIR$/KMeans.py" />
         <option value="$PROJECT_DIR$/Main.py" />
         <option value="$PROJECT_DIR$/CifarFull.py" />
+        <option value="$PROJECT_DIR$/Cifar10Keras.py" />
       </list>
     </option>
   </component>
@@ -222,7 +201,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="2064" />
     <option name="width" value="1321" />
     <option name="height" value="1447" />
@@ -251,44 +230,29 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="Coursework" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Coursework" type="462c0819:PsiDirectoryNode" />
+              <item name="CIFAR10 with Keras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CIFAR10 with Keras" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Coursework" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Coursework" type="462c0819:PsiDirectoryNode" />
-              <item name="checkpoints" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Coursework" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Coursework" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Coursework" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Coursework" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Coursework" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Coursework" type="462c0819:PsiDirectoryNode" />
+              <item name="CIFAR10 with Keras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CIFAR10 with Keras" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="ignore_missing_gitignore" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Report/Graphs/confusion_matrix.png" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="kite.configurable" />
@@ -314,7 +278,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.CifarFull">
+  <component name="RunManager" selected="Python.Cifar10Keras">
+    <configuration name="Cifar10Keras" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Coursework" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Cifar10Keras.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="CifarFull" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Coursework" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -351,28 +337,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Conv5Layers.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="InceptionTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Coursework" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/InceptionTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -427,18 +391,18 @@
     </configuration>
     <list>
       <item itemvalue="Python.Main" />
-      <item itemvalue="Python.InceptionTest" />
       <item itemvalue="Python.Conv5Layers" />
       <item itemvalue="Python.KMeans" />
       <item itemvalue="Python.CifarFull" />
+      <item itemvalue="Python.Cifar10Keras" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Cifar10Keras" />
         <item itemvalue="Python.CifarFull" />
         <item itemvalue="Python.Main" />
         <item itemvalue="Python.KMeans" />
         <item itemvalue="Python.Conv5Layers" />
-        <item itemvalue="Python.InceptionTest" />
       </list>
     </recent_temporary>
   </component>
@@ -465,14 +429,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2064" y="0" width="1321" height="1447" extended-state="0" />
+    <frame x="-8" y="-8" width="3394" height="1456" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.34972245" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13437313" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32901752" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4996957" visible="true" weight="0.32901752" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4996957" visible="true" weight="0.32829046" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -487,7 +452,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.51704997" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.51679665" />
       <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
@@ -516,9 +481,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/trnImage.npy">
-      <provider selected="true" editor-type-id="LargeFileEditor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/data/trnImage.npy" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/layers/merge.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
@@ -533,16 +496,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/cifar10_70percent120k.h5">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/models/cifar10_70percent120k.h5" />
     <entry file="file://$PROJECT_DIR$/InceptionTest.py" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/cifar10_70percent200k.h5">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/models/cifar10_70percent200k.h5" />
     <entry file="file://$PROJECT_DIR$/models/cifar10-62percent-withavgpool.h5" />
     <entry file="file://$PROJECT_DIR$/models/cifar10.h5" />
     <entry file="file://$PROJECT_DIR$/models/cifar10-60percent.h5" />
@@ -553,9 +512,6 @@
           <caret line="504" selection-start-line="504" selection-end-line="504" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model_architecture.json">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/training/checkpointable/base.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -571,13 +527,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RunMe.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/RunMe.ipynb" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/engine/training_arrays.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="799">
@@ -592,56 +542,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/engine/network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="1357" selection-start-line="1357" selection-end-line="1357" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/KMeans.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/5block120k.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/3block200k.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/3block70percent.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/KMeans.py" />
+    <entry file="file://$PROJECT_DIR$/images/5block120k.png" />
+    <entry file="file://$PROJECT_DIR$/images/3block200k.png" />
+    <entry file="file://$PROJECT_DIR$/images/3block70percent.png" />
+    <entry file="file://$PROJECT_DIR$/CifarFull.py" />
+    <entry file="file://$PROJECT_DIR$/models/cifar10_conv_5layer-52%.h5" />
+    <entry file="file://$PROJECT_DIR$/Notes" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/engine/training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
+        <state relative-caret-position="31620">
           <caret line="1891" column="6" selection-start-line="1891" selection-start-column="6" selection-end-line="1891" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CifarFull.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/tensorflow/python/keras/engine/network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1179">
-          <caret line="100" column="50" lean-forward="true" selection-start-line="100" selection-start-column="50" selection-end-line="100" selection-end-column="50" />
-          <folding>
-            <element signature="e#250#1146#0" />
-            <element signature="e#1494#2442#0" />
-          </folding>
+        <state relative-caret-position="22508">
+          <caret line="1357" selection-start-line="1357" selection-end-line="1357" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/cifar10_conv_5layer-52%.h5">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Conv5Layers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
+        <state relative-caret-position="1785">
           <caret line="105" column="60" selection-start-line="105" selection-start-column="60" selection-end-line="105" selection-end-column="60" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
@@ -649,25 +573,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model_architecture.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1921">
-          <caret line="202" selection-start-line="202" selection-end-line="210" />
+        <state relative-caret-position="534">
+          <caret line="248" column="18" lean-forward="true" selection-start-line="248" selection-start-column="18" selection-end-line="248" selection-end-column="67" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
-            <element signature="e#187#990#0" />
-            <element signature="e#1033#1151#0" />
-            <element signature="e#1476#2427#0" />
             <marker date="1542843598453" expanded="true" signature="1307:2445" ph="..." />
             <marker date="1542843598453" expanded="true" signature="8189:8388" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Notes">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Cifar10Keras.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="25" lean-forward="true" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+        <state relative-caret-position="497">
+          <caret line="179" column="30" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
