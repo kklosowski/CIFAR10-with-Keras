@@ -73,7 +73,7 @@ def main():
     data_augmentation = False
     # Levels: 2 Include Flip, 6 Include Rotation, 12 Include Noise
     augmentation_level = 12
-    training_active = True
+    training_active = False
     print_confusion_matrix = True
     print_training_graphs = True
 
